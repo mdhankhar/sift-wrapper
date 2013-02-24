@@ -1,0 +1,33 @@
+sift-wrapper is a 'hack' to be able to use David Lowe's SIFT implementation to detect objects in live camera feed. 
+
+Prerequisites:
+1. The 'SIFT demo program' executable must be acquired from http://www.cs.ubc.ca/~lowe/keypoints/
+   The executables 'sift' and 'sift-wrapper' must be placed in the same directories.
+   Note: on windows rename siftWin32.exe to sift.exe
+
+2. OpenCV 2.4+ is required to compile sift-wrapper
+
+
+The usage of the program is divided in 2 steps:
+
+Step 1: Learning objects
+------------------------
+To learn an object, first obtain a few jpg images of the object in different poses. Then remove the background (make it black) using offline tools like Gimp. Then put the segmented object jpgs in some folder say 'objects/', which is a subfolder of in the directory of 'sift-wrapper'executable.
+The object pose images must be numbered sequencially starting from 0, for ex. coke0.jpg, coke1.jpg, coke2.jpg ...
+
+Then call sift-wrapper with appropriate parameters to learn the object:
+> sift-wrapper 3 objects/coke 
+
+Repeat Step 1 to learn more objects. For ex. if an object 'stella' has 3 segmented poses in sub directory 'objects', that is objects/stella0.jpg, objects/stella1.jpg, objects/stella2.jpg 
+Call sift-wrapper as follows:
+> sift-wrapper 3 objects/stella
+
+
+Step 2: Recognizing objects in live camera feed:
+-------------------------
+Call sift-wrapper again with appropriate parameters. For ex. 2 objects (coke/stella) are learned using Step 1 above. Each object has 3 poses stored in 'objects/' subdirectory. Then call sift-wrapper as:
+> sift-wrapper 2 CokeZero 3 objects/coke StellaBeer 3 objects/stella
+
+
+The webcam index can be change in sift-wrapper.cc, current it opens the cam at index 0.
+The parameter OBJECT_MIN_KEYPOINT_MATCHES can be increased to reduce false positives. 
