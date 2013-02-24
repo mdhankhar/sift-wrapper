@@ -22,6 +22,36 @@ typedef struct KeypointSt
     struct KeypointSt *next;// Pointer to next keypoint in list
 }*Keypoint;
 
+class SingleObjectPosesInfo
+{
+public:
+    SingleObjectPosesInfo(int best_pose_match_coordinates_x = 0, int best_pose_match_coordinates_y = 0, int best_pose_match_count = 0);
+
+    ~SingleObjectPosesInfo();
+
+    void SetBestMatchedObjectPoseInfo(int best_pose_match_coordinates_x, int best_pose_match_coordinates_y, int best_pose_match_count);
+
+    void Initialize(char* object_name, int num_object_poses, char* object_path_prefix);
+
+    void LoadAllObjectPoseKeypointsFromFiles();
+
+
+    void GetBestObjectPoseMatch(Keypoint scene_keypoints);
+
+
+    CvPoint2D32f best_pose_match_coordinates_2D32f_;
+    int best_pose_match_count_;
+    char object_name_[256];
+
+private:
+    Keypoint object_pose_keypoints_array_[100]; //object pose keys array
+    int num_object_poses_;
+    char object_path_prefix_[256];
+
+};
+
+
+
 // This function
 void DumpObjectPoseKey(int num_object_images, char* object_path_prefix);
 
